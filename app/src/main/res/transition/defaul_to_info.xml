@@ -7,10 +7,23 @@
     </targets>
 </changeBounds>
 
-    <fade android:startDelay="300" android:duration="250">
+    <slide android:startDelay="250" android:slideEdge="bottom" android:duration="300">
+        <targets>
+            <target android:targetId="@+id/textView"/>
+            <target android:targetId="@+id/textView2"/>
+            <target android:targetId="@+id/close_Button" />
+
+        </targets>
+    </slide>
+
+
+
+
+    <fade android:startDelay="500" android:duration="250">
         <targets>
             <target android:targetId="@+id/description" />
-            <target android:targetId="@+id/close_Button" />
+
+
 
         </targets>
     </fade>

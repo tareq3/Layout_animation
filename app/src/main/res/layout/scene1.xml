@@ -27,19 +27,20 @@
         app:layout_constraintGuide_percent="0.78" />
 
     <ImageView
-        android:id="@+id/close_Button"
+        android:id="@+id/info_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="16dp"
+        android:onClick="start_Scene2"
         android:tint="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:srcCompat="@android:drawable/ic_dialog_info" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_S"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -49,13 +50,13 @@
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toStartOf="@+id/close_Button"
+        app:layout_constraintEnd_toStartOf="@+id/info_Button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/close_Button"
+        app:layout_constraintTop_toTopOf="@+id/info_Button"
         tools:text="Hello, Life is always better with coffe and cookies." />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView2_S"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -63,8 +64,8 @@
         android:text="TextView"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView_S"
+        app:layout_constraintTop_toBottomOf="@+id/textView_S"
         tools:text="Tareq Islam" />
 
 </android.support.constraint.ConstraintLayout>

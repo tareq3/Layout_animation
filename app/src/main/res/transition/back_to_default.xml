@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <changeBounds android:startDelay="250" android:duration="250">
+        <targets>
+            <target android:targetId="@+id/imageView" />
+        </targets>
+    </changeBounds>
+
+    <fade android:duration="250">
+        <targets>
+            <target android:targetId="@+id/description" />
+            <target android:targetId="@+id/close_Button" />
+
+
+        </targets>
+    </fade>
+
+    <slide android:startDelay="400" android:slideEdge="bottom" android:duration="250">
+        <targets>
+            <target android:targetId="@+id/textView_S"/>
+            <target android:targetId="@+id/textView2_S"/>
+            <target android:targetId="@+id/info_Button"/>
+        </targets>
+    </slide>
+</transitionSet>
