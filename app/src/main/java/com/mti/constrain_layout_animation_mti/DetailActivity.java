@@ -77,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
         // Set the title TextView to the item's name and author
         mHeaderTitle.setText(getString(R.string.image_header, mItem.getName(), mItem.getAuthor()));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && addTransitionListener()) {
+        if ( (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )&& addTransitionListener() ) {
             // If we're running on Lollipop and we have added a listener to the shared element
             // transition, load the thumbnail. The listener will load the full-size image when
             // the transition is complete.

@@ -25,6 +25,7 @@ public class Item {
     private static final String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
     private static final String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
 
+    //An Array variable for holding items.
     public static Item[] ITEMS = new Item[] {
             new Item("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
             new Item("Caterpillar", "Romain Guy", "caterpillar.jpg"),
@@ -35,6 +36,7 @@ public class Item {
             new Item("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
             new Item("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg"),
     };
+
 
     public static Item getItem(int id) {
         for (Item item : ITEMS) {

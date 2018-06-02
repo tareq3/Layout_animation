@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Setup the GridView and set the adapter
         mGridView = (GridView) findViewById(R.id.grid);
         mGridView.setOnItemClickListener(this);
-        mAdapter = new GridAdapter();
+        mAdapter = new GridAdapter(); //GridAdapter is a Custom Adapter
         mGridView.setAdapter(mAdapter);
 
     }
@@ -63,10 +63,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 // Now we provide a list of Pair items which contain the view we can transitioning
                 // from, and the name of the view it is transitioning to, in the launched activity
-                new Pair<View, String>(view.findViewById(R.id.imageview_item),
-                        DetailActivity.VIEW_NAME_HEADER_IMAGE),
-                new Pair<View, String>(view.findViewById(R.id.textview_name),
-                        DetailActivity.VIEW_NAME_HEADER_TITLE));
+                new Pair<View, String>(view.findViewById(R.id.imageview_item), DetailActivity.VIEW_NAME_HEADER_IMAGE
+                ),
+
+                new Pair<View, String>(view.findViewById(R.id.textview_name), DetailActivity.VIEW_NAME_HEADER_TITLE
+                )
+        );
+
 
         // Now we can start the Activity, providing the activity options as a bundle
         ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
