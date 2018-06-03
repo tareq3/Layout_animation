@@ -13,6 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+/*
+ * This is a very basic transitionContainer Animation using Transition Manager
+ *
+ * For creating this type of animation we need only write some transition code.
+
+*/
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
