@@ -1,20 +1,22 @@
 package com.mti.constrain_layout_animation_mti;
 
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
+import android.animation.TimeInterpolator;
+import android.content.Context;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Slide;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.transition.Scene;
+import android.support.v7.app.AppCompatActivity;
+import android.transition.ChangeBounds;
+import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
-import android.transition.TransitionSet;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.widget.ImageView;
 
 /*
- * This is a very basic transitionContainer Animation using Transition Manager
+ * This is a very basic Scene Transition Animation using Transition Manager
  *
  * For creating this type of animation we need only write some transition code.
 
@@ -22,32 +24,51 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static boolean show;
+    ViewGroup sceneRoot;
+    Scene scene1,scene0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_close);
+        setContentView(R.layout.activity_main_scene_0);
 
-        final ViewGroup transitionContainer= findViewById(R.id.transitionContainer);
-        final TextView textView=findViewById(R.id.textView);
-        final Button b1= findViewById(R.id.button);
-        b1.setOnClickListener(new View.OnClickListener() {
+         sceneRoot=findViewById(R.id.constraint);
+         scene1 = Scene.getSceneForLayout(sceneRoot, R.layout.activity_main_scene_1, this);
+         scene0 = Scene.getSceneForLayout(sceneRoot, R.layout.activity_main_scene_0, this);
 
-            @Override
-            public void onClick(View v) {
+    }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        TransitionManager.beginDelayedTransition(transitionContainer,
-                                new TransitionSet()
-                                        .addTransition(new Fade())
-                                        .addTransition(new Slide(Gravity.END))
-                        );
-                    }
-                }
-                transitionContainer.removeView(textView);//by this line we are adding animation on certain view, in this case textView will have the animation
-                transitionContainer.removeView(b1); //we can apply animation on multiple view at a single time.
+    //this method is using from background image click action
+    public void changeScene(View v){
 
-            }
-        });
+        if (show) {
+            hideComponents();
+        } else {
+            showComponents();
+        }
+
+    }
+
+
+    //In this follwong method we are not using any transition xml
+    private  void showComponents() {
+        show = true;
+
+        ChangeBounds transition = new ChangeBounds(); //Type of transition
+
+        transition.setInterpolator((TimeInterpolator)(new AnticipateOvershootInterpolator(1.0F))); //for bounciness
+        transition.setDuration(1200L);
+
+        TransitionManager.go(scene1,transition); //Starting Transition
+    }
+
+    //In this following method we are using transition xml which is doing the same thing like previous method
+    private void hideComponents() {
+        show = false;
+
+
+        TransitionManager.go(scene0, TransitionInflater.from(this).inflateTransition(R.transition.simple_transition));
+
     }
 }
