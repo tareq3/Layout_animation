@@ -1,31 +1,19 @@
 package com.mti.constrain_layout_animation_mti;
 
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
-
-import static com.mti.constrain_layout_animation_mti.Item.getItem;
 
 
 /*
@@ -36,14 +24,16 @@ import static com.mti.constrain_layout_animation_mti.Item.getItem;
     * As this is First activity It will have Transition Exit and ReEnter.
     *
     * We had used XML Tranition for this Activity
+    *
+    * instead of using GridView we have used StaggeredGrid with recycler view which acts like a random grid view.
    */
 
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mGridView;
+    StaggeredGridLayoutManager mStaggeredGridLayoutManager; //for using recycler view as a random Grid view
 
-        StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private GridAdapter mAdapter;
 
     @Override
@@ -67,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder>  {
 
 
-ArrayList<Item> mItems;
+        ArrayList<Item> mItems;
 
         public GridAdapter(ArrayList<Item> items) {
             mItems = items;
