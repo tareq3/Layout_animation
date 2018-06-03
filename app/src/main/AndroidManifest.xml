@@ -9,8 +9,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Sample">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+
+        <!--
+            * In this project we have used Activity content transition in two different way
+                ~ by xml for the first or Main Activity
+                ~ by code for detail Activity -->
+
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.TransitionSample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DetailActivity" />
+        <activity android:name=".DetailActivity" /> <!--As we are using code for Detail Activity , we don't need to use any Transition theme-->
     </application>
 
 </manifest>

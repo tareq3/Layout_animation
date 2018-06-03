@@ -14,37 +14,45 @@
      limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="8dp"
+    android:layout_marginBottom="16dp">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-     <com.mti.constrain_layout_animation_mti.SquareFrameLayout
+        <ImageView
+            android:id="@+id/imageview_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-         <ImageView
-              android:id="@+id/imageview_item"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
 
-        />
 
-    </com.mti.constrain_layout_animation_mti.SquareFrameLayout>
+            card_view:srcCompat="@color/cardview_light_background" />
+
 
 
 
 <TextView
           android:id="@+id/textview_name"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="?android:attr/colorPrimary"
-          android:theme="@android:style/Theme.Material"
-          android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-          android:maxLines="1"
-          android:padding="16dp"
-        tools:targetApi="lollipop" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="13sp"
 
-</LinearLayout>
+    android:textColor="#ffffff"
+    android:layout_below="@+id/imageview_item"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    android:gravity="center_horizontal"
+    android:layout_alignParentBottom="true"
+    android:background="#1976D2" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

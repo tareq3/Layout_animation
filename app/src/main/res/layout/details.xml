@@ -23,17 +23,15 @@
           android:layout_height="wrap_content"
           android:orientation="vertical">
 
-        <com.mti.constrain_layout_animation_mti.SquareFrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+
 
             <ImageView
                   android:id="@+id/imageview_header"
                   android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:scaleType="centerCrop" />
+                  android:layout_height="250dp"
+                  android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
 
-        </com.mti.constrain_layout_animation_mti.SquareFrameLayout>
 
         <TextView
               android:id="@+id/textview_title"
@@ -46,6 +44,8 @@
               android:padding="16dp" />
 
         <TextView
+
+            android:id="@+id/description"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:padding="16dp"

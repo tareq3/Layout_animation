@@ -22,27 +22,32 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.transition.Transition;
+import android.transition.TransitionManager;
+import android.view.Gravity;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.annotation.GlideModule;
 
 
 /**
  * Our secondary Activity which is launched from {@link MainActivity}. Has a simple detail UI
  * which has a large banner image, title and body text.
+ *
+ * As this is second Activity it will have Transition Enter and Return
+ *
+ * we had used Code Transition for this activity
  */
 public class DetailActivity extends AppCompatActivity {
 
     // Extra name for the ID parameter
     public static final String EXTRA_PARAM_ID = "detail:_id";
 
-    // View name of the header image. Used for activity scene transitions
-    public static final String VIEW_NAME_HEADER_IMAGE = "detail:header:image";
-
-    // View name of the header title. Used for activity scene transitions
-    public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
 
     private ImageView mHeaderImageView;
     private TextView mHeaderTitle;
@@ -60,15 +65,6 @@ public class DetailActivity extends AppCompatActivity {
         mHeaderImageView = (ImageView) findViewById(R.id.imageview_header);
         mHeaderTitle = (TextView) findViewById(R.id.textview_title);
 
-        // BEGIN_INCLUDE(detail_set_view_name)
-        /**
-         * Set the name of the view's which will be transition to, using the static values above.
-         * This could be done in the layout XML, but exposing it via static variables allows easy
-         * querying from other Activities
-         */
-        ViewCompat.setTransitionName(mHeaderImageView, VIEW_NAME_HEADER_IMAGE);
-        ViewCompat.setTransitionName(mHeaderTitle, VIEW_NAME_HEADER_TITLE);
-        // END_INCLUDE(detail_set_view_name)
 
         loadItem();
     }
@@ -77,26 +73,13 @@ public class DetailActivity extends AppCompatActivity {
         // Set the title TextView to the item's name and author
         mHeaderTitle.setText(getString(R.string.image_header, mItem.getName(), mItem.getAuthor()));
 
-        if ( (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )&& addTransitionListener() ) {
-            // If we're running on Lollipop and we have added a listener to the shared element
-            // transition, load the thumbnail. The listener will load the full-size image when
-            // the transition is complete.
-            loadThumbnail();
-        } else {
+        if ( (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )&& m_AddTransition() ) {
+
             // If all other cases we should just load the full-size image now
             loadFullSizeImage();
         }
     }
 
-    /**
-     * Load the item's thumbnail image into our {@link ImageView}.
-     */
-    private void loadThumbnail() {
-        GlideApp.with(mHeaderImageView.getContext())
-                .load(mItem.getThumbnailUrl())
-
-                .into(mHeaderImageView);
-    }
 
     /**
      * Load the item's full-size image into our {@link ImageView}.
@@ -104,64 +87,32 @@ public class DetailActivity extends AppCompatActivity {
     private void loadFullSizeImage() {
         GlideApp.with(mHeaderImageView.getContext())
                 .load(mItem.getPhotoUrl())
-                .placeholder(mHeaderImageView.getDrawable())
+                .thumbnail(GlideApp.with(mHeaderImageView.getContext()).load(mItem.getThumbnailUrl()))
+
                  .into(mHeaderImageView);
     }
 
-    /**
-     * Try and add a {@link Transition.TransitionListener} to the entering shared element
-     * {@link Transition}. We do this so that we can load the full-size image after the transition
-     * has completed.
-     *
-     * @return true if we were successful in adding a listener to the enter transition
-     */
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private boolean addTransitionListener() {
-        final Transition transition = getWindow().getSharedElementEnterTransition();
+    private boolean m_AddTransition() {
 
-        if (transition != null) {
-            // There is an entering shared element transition so add a listener to it
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                transition.addListener(new Transition.TransitionListener() {
-                    @Override
-                    public void onTransitionEnd(Transition transition) {
-                        // As the transition has ended, we can now load the full-size image
-                        loadFullSizeImage();
+        //region Transition in detail
+        Slide slide=new Slide(Gravity.BOTTOM);
+        slide.addTarget(R.id.description);
+        slide.setInterpolator(
+                AnimationUtils.loadInterpolator(this,
+                        android.R.interpolator.linear_out_slow_in)
+        );
+        slide.setDuration(300);
 
-                        // Make sure we remove ourselves as a listener
+        getWindow().setEnterTransition(slide);
+        //endregion
 
-                            transition.removeListener(this);
+        //region Fast Transition
+        getWindow().setReturnTransition(new Fade().setDuration(300));
+        //endregion
 
-                    }
-
-                    @Override
-                    public void onTransitionStart(Transition transition) {
-                        // No-op
-                    }
-
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void onTransitionCancel(Transition transition) {
-                        // Make sure we remove ourselves as a listener
-                        transition.removeListener(this);
-                    }
-
-                    @Override
-                    public void onTransitionPause(Transition transition) {
-                        // No-op
-                    }
-
-                    @Override
-                    public void onTransitionResume(Transition transition) {
-                        // No-op
-                    }
-                });
-            }
-            return true;
-        }
-
-        // If we reach here then we have not added a listener
-        return false;
+        return true;
     }
 
 }

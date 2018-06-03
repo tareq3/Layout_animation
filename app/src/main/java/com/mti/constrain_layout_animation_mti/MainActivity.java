@@ -1,11 +1,17 @@
 package com.mti.constrain_layout_animation_mti;
 
+import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,17 +19,31 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.ArrayList;
+
+import static com.mti.constrain_layout_animation_mti.Item.getItem;
+
 
 /*
     * For using Shared element Activity transition you must have min lollipop or android 5.0 or sdk 21
     *
     * we had used glide for image fetching
+    *
+    * As this is First activity It will have Transition Exit and ReEnter.
+    *
+    * We had used XML Tranition for this Activity
    */
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    private GridView mGridView;
+    private RecyclerView mGridView;
+
+        StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private GridAdapter mAdapter;
 
     @Override
@@ -32,88 +52,101 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.grid);
 
         // Setup the GridView and set the adapter
-        mGridView = (GridView) findViewById(R.id.grid);
-        mGridView.setOnItemClickListener(this);
-        mAdapter = new GridAdapter(); //GridAdapter is a Custom Adapter
+        mGridView = findViewById(R.id.grid);
+
+        mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        mGridView.setLayoutManager(mStaggeredGridLayoutManager);
+
+        mAdapter = new GridAdapter(Item.ITEMS); //GridAdapter is a Custom Adapter
         mGridView.setAdapter(mAdapter);
 
     }
 
 
-    /**
-     * Called when an item in the {@link android.widget.GridView} is clicked. Here will launch the
-     * {@link DetailActivity}, using the Scene Transition animation functionality.
-     */
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Item item = (Item) adapterView.getItemAtPosition(position);
 
-        // Construct an Intent as normal
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.EXTRA_PARAM_ID, item.getId());
-
-        // BEGIN_INCLUDE(start_activity)
-        /**
-         * Now create an {@link android.app.ActivityOptions} instance using the
-         * {@link ActivityOptionsCompat#makeSceneTransitionAnimation(Activity, Pair[])} factory
-         * method.
-         */
-        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this,
-
-                // Now we provide a list of Pair items which contain the view we can transitioning
-                // from, and the name of the view it is transitioning to, in the launched activity
-                new Pair<View, String>(view.findViewById(R.id.imageview_item), DetailActivity.VIEW_NAME_HEADER_IMAGE
-                ),
-
-                new Pair<View, String>(view.findViewById(R.id.textview_name), DetailActivity.VIEW_NAME_HEADER_TITLE
-                )
-        );
+    private class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder>  {
 
 
-        // Now we can start the Activity, providing the activity options as a bundle
-        ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
-        // END_INCLUDE(start_activity)
-    }
+ArrayList<Item> mItems;
 
+        public GridAdapter(ArrayList<Item> items) {
+            mItems = items;
+        }
 
-    /**
-     * {@link android.widget.BaseAdapter} which displays items.
-     */
-    private class GridAdapter extends BaseAdapter {
-
+        View view;
+        @NonNull
         @Override
-        public int getCount() {
-            return Item.ITEMS.length;
+        public MyViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
+
+          view = LayoutInflater.from(parent.getContext()).inflate( R.layout.grid_item, parent, false);
+
+
+
+
+            MyViewHolder myViewHolder=new MyViewHolder(view);
+            return myViewHolder;
         }
 
         @Override
-        public Item getItem(int position) {
-            return Item.ITEMS[position];
-        }
+        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        @Override
-        public long getItemId(int position) {
-            return getItem(position).getId();
-        }
 
-        @Override
-        public View getView(int position, View view, ViewGroup viewGroup) {
-            if (view == null) {
-                view = getLayoutInflater().inflate(R.layout.grid_item, viewGroup, false);
-            }
 
-            final Item item = getItem(position);
+            ImageView imageView;
+            TextView textView;
+
+            imageView=holder.img1;
+            textView=holder.textView;
+
+             Item item =mItems.get(position);
 
             // Load the thumbnail image
-            ImageView image = (ImageView) view.findViewById(R.id.imageview_item);
-            GlideApp.with(image.getContext()).load(item.getThumbnailUrl()).into(image);
+            GlideApp.with(view).load(item.getThumbnailUrl()).placeholder(R.drawable.ic_launcher_background).into(imageView);
+
 
             // Set the TextView's contents
-            TextView name = (TextView) view.findViewById(R.id.textview_name);
-            name.setText(item.getName());
+            textView.setText(item.getName());
+        }
 
-            return view;
+        @Override
+        public int getItemCount() {
+            return Item.ITEMS.size();
+        }
+
+
+        public  class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView textView;
+        ImageView img1;
+
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Item item =  mItems.get(getAdapterPosition());
+
+                    //Toast.makeText(this, ""+ item, Toast.LENGTH_SHORT).show();
+                    // Construct an Intent as normal
+                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                    intent.putExtra(DetailActivity.EXTRA_PARAM_ID, item.getId());
+
+
+
+                    Bundle bundle= ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle(); //Triggering Transition Animation
+                    startActivity(intent,bundle);
+                }
+            });
+
+            textView = (TextView) itemView.findViewById(R.id.textview_name);
+            img1 = (ImageView) itemView.findViewById(R.id.imageview_item);
+
+
+        }
+
+
         }
     }
 }
