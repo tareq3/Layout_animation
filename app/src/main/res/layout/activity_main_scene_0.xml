@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:src="@drawable/mugello"
         android:scaleType="centerCrop"
-        android:onClick="changeScene"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

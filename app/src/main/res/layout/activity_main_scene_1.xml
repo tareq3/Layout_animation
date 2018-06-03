@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/mugello"
-        android:onClick="changeScene"
+
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

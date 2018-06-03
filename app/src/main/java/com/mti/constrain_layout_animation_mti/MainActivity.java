@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static boolean show;
     ViewGroup sceneRoot;
-    Scene scene1,scene0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,41 +34,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_scene_0);
 
          sceneRoot=findViewById(R.id.constraint);
-         scene1 = Scene.getSceneForLayout(sceneRoot, R.layout.activity_main_scene_1, this);
-         scene0 = Scene.getSceneForLayout(sceneRoot, R.layout.activity_main_scene_0, this);
 
+
+         findViewById(R.id.backgroundImage).setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 if (show) {
+                     hideComponents();
+                 } else {
+                     showComponents();
+                 }
+             }
+         });
     }
 
-    //this method is using from background image click action
-    public void changeScene(View v){
-
-        if (show) {
-            hideComponents();
-        } else {
-            showComponents();
-        }
-
-    }
 
 
     //In this follwong method we are not using any transition xml
     private  void showComponents() {
         show = true;
 
-        ChangeBounds transition = new ChangeBounds(); //Type of transition
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone((Context)this, R.layout.activity_main_scene_1); //secondery layout
 
-        transition.setInterpolator((TimeInterpolator)(new AnticipateOvershootInterpolator(1.0F))); //for bounciness
+        ChangeBounds transition = new ChangeBounds();
+        transition.setInterpolator((TimeInterpolator)(new AnticipateOvershootInterpolator(1.0F)));
         transition.setDuration(1200L);
 
-        TransitionManager.go(scene1,transition); //Starting Transition
+        TransitionManager.beginDelayedTransition(sceneRoot,transition);
+        constraintSet.applyTo((ConstraintLayout) sceneRoot);
     }
 
     //In this following method we are using transition xml which is doing the same thing like previous method
     private void hideComponents() {
         show = false;
 
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone((Context)this, R.layout.activity_main_scene_0);
+        ChangeBounds transition = new ChangeBounds();
 
-        TransitionManager.go(scene0, TransitionInflater.from(this).inflateTransition(R.transition.simple_transition));
+        transition.setInterpolator((TimeInterpolator)(new AnticipateOvershootInterpolator(1.0F)));
+        transition.setDuration(1200L);
 
+
+        TransitionManager.beginDelayedTransition(sceneRoot,transition);
+        constraintSet.applyTo((ConstraintLayout) sceneRoot);
     }
 }
