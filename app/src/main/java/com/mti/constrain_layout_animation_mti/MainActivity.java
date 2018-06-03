@@ -16,7 +16,7 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.ImageView;
 
 /*
- * This is a very basic Scene Transition Animation using Transition Manager
+ * This is a very basic Scene Layout Transition Animation using Transition Manager
  *
  * For creating this type of animation we need only write some transition code.
 
