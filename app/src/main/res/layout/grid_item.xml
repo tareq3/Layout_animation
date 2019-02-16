@@ -13,38 +13,46 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardElevation="3sp"
+    app:cardCornerRadius="6dp">
+
+<LinearLayout
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
 
-     <com.mti.constrain_layout_animation_mti.SquareFrameLayout
+    <com.mti.constrain_layout_animation_mti.SquareFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageview_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-         <ImageView
-              android:id="@+id/imageview_item"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:scaleType="centerCrop"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
 
-        />
+            />
 
     </com.mti.constrain_layout_animation_mti.SquareFrameLayout>
 
 
-
-<TextView
-          android:id="@+id/textview_name"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="?android:attr/colorPrimary"
-          android:theme="@android:style/Theme.Material"
-          android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-          android:maxLines="1"
-          android:padding="16dp"
+    <TextView
+        android:id="@+id/textview_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorPrimary"
+        android:maxLines="1"
+        android:padding="16dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+        android:theme="@android:style/Theme.Material"
         tools:targetApi="lollipop" />
 
 </LinearLayout>
+</android.support.v7.widget.CardView>
